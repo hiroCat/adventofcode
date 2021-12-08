@@ -23,7 +23,7 @@ var response2 = CompareAndGetTotal(l);
 Console.WriteLine($"increased => {response2}");
 Console.WriteLine($">>>>>>>>>>>>>>>>>>>>>");
 
-// Helpers 
+// Functions
 int SumOfThings(List<int> sumOf) =>
     sumOf.Aggregate(0, (total, next) => total + next);
 
