@@ -82,11 +82,9 @@ void printMatrixInv(int[,] matrix)
     {
         for (int j = 0; j < colLength; j++)
         {
-            //Console.Write(string.Format("{0} ", matrix[j,i]));
             Console.Write(string.Format("{0}", matrix[j,i]));
         }
         Console.Write(Environment.NewLine);
-        //Console.Write(Environment.NewLine + Environment.NewLine);
     }
     Console.ReadLine();
 }
