@@ -11,7 +11,7 @@ foreach (var line in list)
     var (startX, startY) = getCoordinates(start);
     var (endX, endY) = getCoordinates(end);
 
-    if ( startX == endX || startY == endY)
+    if (startX == endX || startY == endY)
         listC.Add(new Coordinates(startX, startY, endX, endY));
 
     maxX = maxX < Math.Max(startX, endX) ? Math.Max(startX, endX) : maxX;
@@ -22,18 +22,10 @@ int[,] matrix = new int[maxX+1, maxY+1];
 
 foreach (var item in listC)
 {
-    if (item.StartX == item.EndX)
-    {
-        for (int i = Math.Min(item.StartY, item.EndY); i <= Math.Max(item.StartY, item.EndY); i++)
-            matrix[item.StartX, i] += 1;
-    }
-    else
-    {
-        for (int i = Math.Min(item.StartX, item.EndX); i <= Math.Max(item.StartX, item.EndX); i++)
-            matrix[i, item.StartY] += 1;
-    }
+    for (int i = Math.Min(item.StartY, item.EndY); i <= Math.Max(item.StartY, item.EndY); i++)
+        for (int j = Math.Min(item.StartX, item.EndX); j <= Math.Max(item.StartX, item.EndX); j++)
+            matrix[j,i] += 1;
 }
-
 
 
 //printMatrixInv(matrix);
