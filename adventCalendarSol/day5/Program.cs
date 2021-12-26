@@ -11,8 +11,7 @@ foreach (var line in list)
     var (startX, startY) = getCoordinates(start);
     var (endX, endY) = getCoordinates(end);
 
-    if (startX == endX || startY == endY)
-        listC.Add(new Coordinates(startX, startY, endX, endY));
+    listC.Add(new Coordinates(startX, startY, endX, endY));
 
     maxX = maxX < Math.Max(startX, endX) ? Math.Max(startX, endX) : maxX;
     maxY = maxY < Math.Max(startY, endY) ? Math.Max(startY, endY) : maxY;
@@ -22,13 +21,31 @@ int[,] matrix = new int[maxX+1, maxY+1];
 
 foreach (var item in listC)
 {
-    for (int i = Math.Min(item.StartY, item.EndY); i <= Math.Max(item.StartY, item.EndY); i++)
-        for (int j = Math.Min(item.StartX, item.EndX); j <= Math.Max(item.StartX, item.EndX); j++)
-            matrix[j,i] += 1;
+    var (i, j) = (item.StartX, item.StartY);
+    do
+    {
+        matrix[i,j] += 1;
+        if(item.StartX == item.EndX)
+        {
+            j = item.StartY > item.EndY ? j - 1 : j + 1;
+
+        }
+        else if (item.StartY == item.EndY)
+        {
+            i = item.StartX > item.EndX ? i - 1 : i + 1;
+        }
+        else
+        {
+            i = item.StartX > item.EndX ? i - 1 : i + 1;
+            j = item.StartY > item.EndY ? j - 1 : j + 1;
+        }
+    } while (i != item.EndX || j != item.EndY);
+    matrix[i,j] += 1;
 }
 
 
 //printMatrixInv(matrix);
+
 
 Console.WriteLine($">>>>>>>>>>>>>>>>>>>>>");
 Console.WriteLine($"sizeMatr => {countHighVal(matrix)}");
@@ -65,9 +82,11 @@ void printMatrixInv(int[,] matrix)
     {
         for (int j = 0; j < colLength; j++)
         {
-            Console.Write(string.Format("{0} ", matrix[j,i]));
+            //Console.Write(string.Format("{0} ", matrix[j,i]));
+            Console.Write(string.Format("{0}", matrix[j,i]));
         }
-        Console.Write(Environment.NewLine + Environment.NewLine);
+        Console.Write(Environment.NewLine);
+        //Console.Write(Environment.NewLine + Environment.NewLine);
     }
     Console.ReadLine();
 }
