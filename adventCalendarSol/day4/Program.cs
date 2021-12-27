@@ -18,28 +18,59 @@ foreach (var line in list[2..])
     }
 }
 
-var winnerScore = 0;
+//SolutionOne(grids, calledNumbers.ToList());
+SolutionTwo(grids, calledNumbers.ToList());
 
-foreach (var number in calledNumbers)
+
+// solutions
+void SolutionOne(List<Board> grids, List<int> calledNumbers)
 {
-    foreach (var b in grids)
+    var winnerScore = 0;
+    foreach (var number in calledNumbers)
     {
-        markNumberInBoard(b, number);
-        if (isBoardWin(b))
+        foreach (var b in grids)
         {
-            winnerScore = calculatePoints(b);
-            break;
+            markNumberInBoard(b, number);
+            if (isBoardWin(b))
+            {
+                winnerScore = calculatePoints(b);
+                break;
+            }
         }
+        if (winnerScore != 0)
+            break;
     }
-    if (winnerScore != 0)
-        break;
+
+    //foreach (var item in grids)
+    //    printBoard(item);
+
+    Console.WriteLine($"result => {winnerScore}");
+    Console.WriteLine($">>>>>>>>>>>>>>>>>>>>>");
 }
 
-//foreach (var item in grids)
-//    printBoard(item);
+void SolutionTwo(List<Board> grids, List<int> calledNumbers)
+{
+    var looserGrid = 0;
+    foreach (var number in calledNumbers)
+    {
+        foreach (var b in grids.Where(x => !x.IsWinned))
+        {
+            markNumberInBoard(b, number);
+            if (isBoardWin(b))
+            {
+                looserGrid = calculatePoints(b);
+                b.IsWinned = true;
+            }
+        }
+    }
 
-Console.WriteLine($"result => {winnerScore}");
-Console.WriteLine($">>>>>>>>>>>>>>>>>>>>>");
+    //foreach (var item in grids)
+    //    printBoard(item);
+
+    Console.WriteLine($"result => {looserGrid}");
+    Console.WriteLine($">>>>>>>>>>>>>>>>>>>>>");
+}
+
 
 // Functions 
 
@@ -53,7 +84,7 @@ bool isBoardWin(Board board)
 {
     if (board.NumberOfFoundNumb < 5)
         return false;
-    for (int i = 0; i+5 < board.BoardNumbers.Count; i+=5)
+    for (int i = 0; i+5 <= board.BoardNumbers.Count; i+=5)
     {
         if(board.BoardNumbers.ToArray()[i..(i+5)].All(x => x.Marked))
             return true;
@@ -124,7 +155,10 @@ public class Board
         Points = 0;
         lastEvalNumber = 0;
         NumberOfFoundNumb = 0;
+        IsWinned = false;
     }
+
+    public bool IsWinned { get; set; }
 
     public int Points { get; set; }
 
