@@ -9,11 +9,8 @@ var list = (await File.ReadAllLinesAsync(@"input.txt"))
 var lanternFishSep = new long[9] {0, 0 , 0 , 0, 0, 0, 0, 0, 0};
 
 foreach (var item in list)
-{
     lanternFishSep[item] += 1;
-}
 
-//printArrayLantern(0, lanternFishSep);
 
 foreach (var line in Enumerable.Range(1,256))
 {
@@ -24,8 +21,6 @@ foreach (var line in Enumerable.Range(1,256))
     lanternFishSepCp[6] = lanternFishSepCp[6] + lanternFishSep[0];
 
     lanternFishSep = lanternFishSepCp;
-
-    //printArrayLantern(line, lanternFishSep);
 }
 
 
